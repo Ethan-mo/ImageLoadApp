@@ -10,6 +10,7 @@ import UIKit
 struct Service {
     static let shared = Service()
     func loadImage(_ imageView: UIImageView,_ progressView: UIProgressView) {
+        progressView.progress = 0.0
         let accessKey = "R2NV3QtFktacgl7anhF5gxJ0N-IZbKvuzwn9bvnSckA"
         let apiUrl = "https://api.unsplash.com/photos/random"
         guard let url = URL(string: apiUrl) else { return }

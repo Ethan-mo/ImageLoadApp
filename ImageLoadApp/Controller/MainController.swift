@@ -12,6 +12,7 @@ private let reuseIdentifier = "ImageLoadCell"
 class MainController: UIViewController {
     // MARK: - Properties
     private var images = [UIImage]()
+    
     private let tableView = UITableView()
     private let allLoadButton: UIButton = {
         let btn = UIButton(type: .system)
@@ -30,19 +31,23 @@ class MainController: UIViewController {
  
     // MARK: - API
     @objc func handleAllLoadingImages() {
-        let indexPath = IndexPath(row: 5, section: 0)
-        let cell = self.tableView.cellForRow(at: indexPath)
-        
-        
+        print("DEBUG: 전체 다운로드")
+        for cell in tableView.visibleCells {
+            if let myCell = cell as? ImageLoadCell {
+                myCell.handleLoadImage()
+            }
+        }
     }
     
     // MARK: - Helper
     func configureUI() {
         view.backgroundColor = .white
-        view.addSubview(tableView)
-        tableView.rowHeight = 80
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        view.addSubview(tableView)
+        tableView.rowHeight = 80
         tableView.frame = view.frame
         tableView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 12, paddingLeft: 2, paddingRight: 2)
         view.addSubview(allLoadButton)
