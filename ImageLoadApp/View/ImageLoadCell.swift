@@ -14,10 +14,10 @@ protocol ImageLoadCellDelegate: class {
 class ImageLoadCell: UITableViewCell {
     // MARK: - Properties
     weak var delegate: ImageLoadCellDelegate?
-    var image: UIImage? {
+    var image: Image? {
         didSet{
             print("DEBUG: 이미지 수정")
-            randomImageView.image = image
+            randomImageView.sd_setImage(with: image?.urls)
         }
     }
     
@@ -64,7 +64,11 @@ class ImageLoadCell: UITableViewCell {
     
     // MARK: - API
     func loadImage() {
-        Service.shared.loadImage(randomImageView, loadingBar)
+        Service.shared.loadImage(randomImageView, loadingBar) { img in
+            print("실행")
+            self.image = img
+            self.configure()
+        }
     }
     
     
@@ -73,6 +77,10 @@ class ImageLoadCell: UITableViewCell {
         print("DEUBG: configure")
         loadingBar.progressTintColor = UIColor.blue
         loadingBar.trackTintColor = UIColor.lightGray
+        
+        let viewModel = ImageViewModel(image: image)
+        loadButton.setTitle(viewModel.stateDownload, for: .normal)
+        loadButton.backgroundColor = viewModel.isButtonBackgroundColor
     }
 }
 

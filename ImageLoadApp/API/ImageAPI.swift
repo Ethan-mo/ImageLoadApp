@@ -9,7 +9,7 @@ import UIKit
 
 struct Service {
     static let shared = Service()
-    func loadImage(_ imageView: UIImageView,_ progressView: UIProgressView) {
+    func loadImage(_ imageView: UIImageView,_ progressView: UIProgressView, completion:@escaping(Image) -> Void) {
         progressView.progress = 0.0
         let accessKey = "R2NV3QtFktacgl7anhF5gxJ0N-IZbKvuzwn9bvnSckA"
         let apiUrl = "https://api.unsplash.com/photos/random"
@@ -49,6 +49,7 @@ struct Service {
                     imageView.load(url: url) { (success) in
                         if success {
                             progressView.setProgress(1.0, animated: true)
+                            completion(Image(dictionary: json!, url))
                         }
                     }
                 }
